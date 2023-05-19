@@ -23,33 +23,24 @@ jobs:
     name: Build Spring Boot
     runs-on: ubuntu-latest
     steps:
-      - name: Git Checkout Code
-        uses: actions/checkout@v1
-        id: git_checkout
-
-      - name: Set up JDK 12.0
-        uses: actions/setup-java@v1
-        with:
-          java-version: 12.0
-
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Build Docker Image
         id: buildAndPushImage
-        uses: abhishek-070/docker-image-build-push-action@v1.0
+        uses: MaximilianoBz/dockerhub-buildpush@v1.0
         with:
           registry_url: 'docker.io'
           repository_name: 'demo-app'
-          user_name: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          user_name: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           image_version: 'v1.0'
           docker_file: '.'
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
 ```
 
-Set `registry_url、repository_name、user_name、password` for uploading image to docker hub. For username and password set github secrets so that credentials are not exposed. You can use  `${{ secrets.DOCKERHUB_USERNAME }} ${{ secrets.DOCKERHUB_TOKEN }}` as github secret keys。 For docker hub password generate access token. Ref. [Settings](https://hub.docker.com/settings/security)
+Set `registry_url、repository_name、user_name、password` for uploading image to docker hub. For username and password set github secrets so that credentials are not exposed. You can use  `${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_TOKEN }}` as github secret keys。 For docker hub password generate access token. Ref. [Settings](https://hub.docker.com/settings/security)
 
 ## Description
 
