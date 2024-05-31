@@ -11,7 +11,7 @@ fi
 
 docker-compose down
 docker-compose up -d
-docker build --platform linux/arm/v7 -t ${image_name} ${docker_file}
+docker build -t ${image_name} ${docker_file}
 docker tag ${image_name} ${image_url}
 docker push ${image_url}
 
