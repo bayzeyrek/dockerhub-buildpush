@@ -8,7 +8,7 @@ if [[ "${docker_file}" = "" ]]; then
     docker_file="."
 fi
 
-docker build -t ${image_name} ${docker_file}
+docker build --platform linux/arm/v7 -t ${image_name} ${docker_file}
 docker tag ${image_name} ${image_url}
 docker push ${image_url}
 
